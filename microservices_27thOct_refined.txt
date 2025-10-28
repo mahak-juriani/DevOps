@@ -1,0 +1,133 @@
+MICROSERVICE REQUEST FLOW
+-------------------------
+
+DNS 
+ └──> Load Balancer 
+       └──> Authentication / Authorization Service 
+             ├──> Microservice 1 ──> Database 1
+             ├──> Microservice 2 ──> Database 2
+             └──> Microservice 3 ──> Database 3
+
+
+LOAD BALANCER
+--------------
+
+Types of Load Balancer:
+1. Path-Based Routing
+2. Instance-Based Routing (Round Robin / Instance Identification)
+
+
+Path-Based Routing:
+- Routes requests based on the request path.
+- Example:
+    /login   → Login Service
+    /profile → Profile Service
+
+
+Instance-Based Routing:
+- Distributes requests among multiple instances of the same service.
+- Example:
+    1st request → Login Service Instance L1
+    2nd request → Login Service Instance L2
+- All instances perform the same functionality.
+
+Note: All Load Balancers should support Service Discovery —
+      when a new instance comes up or an existing one goes down.
+
+
+SERVICE DISCOVERY
+-----------------
+- Detects available service instances.
+- Keeps track of which instances are healthy and available.
+- Ensures load balancer routes traffic correctly.
+
+
+MVC TO MVC COMMUNICATION
+------------------------
+
+There are 2 types of communication between services:
+1. Synchronous Communication
+2. Asynchronous Communication
+
+
+1. Synchronous Communication:
+   - Like talking on a call → you wait for the other person to respond.
+   - Example: HTTP / REST / gRPC
+   - If one service is down, others depending on it will also wait or fail.
+
+
+2. Asynchronous Communication:
+   - Like chatting → you send a message and can come back later.
+   - Example: Kafka, RabbitMQ, etc.
+   - Used when services don’t need an immediate response.
+
+   Types of Asynchronous Communication:
+   -------------------------------------
+   1. Pub-Sub Model
+        - One publisher, multiple subscribers.
+   2. Queue Model
+        - Messages go into a queue and are consumed by services.
+
+   In asynchronous communication, Load Balancer is not needed.
+   The Broker (like Kafka) handles distribution and delivery.
+
+
+EVENT SYNC
+----------
+- Used to track:
+    - How much time a request took.
+    - Which instance handled the request.
+- Helps in monitoring, debugging, and performance analysis.
+
+
+MICROSERVICE DESIGN PRINCIPLES
+------------------------------
+
+Polyglot Microservices:
+- Each microservice can use a different programming language or database.
+- Example:
+    Auth Service     → Node.js + MongoDB
+    Payment Service  → Java + MySQL
+    Analytics Service → Python + PostgreSQL
+
+Statelessness:
+- Microservices should be STATELESS.
+- No local user/session data — state is stored in DB or cache.
+
+Database Communication Rule:
+- One microservice → can talk to many databases.
+- Multiple databases → should NOT talk to a single microservice directly.
+
+
+REDIS
+-----
+- Type: NoSQL (In-memory Data Store)
+- Common Use: Caching
+- Purpose: Improve performance and reduce database load.
+
+
+12-FACTOR APP PRINCIPLES
+------------------------
+
+1. Codebase          → One codebase tracked in version control, many deploys.
+2. Dependencies      → Explicitly declare and isolate dependencies.
+3. Config            → Store configuration in environment variables.
+4. Backing Services  → Treat DB, cache, etc. as attached resources.
+5. Build, Release, Run → Keep these stages separate.
+6. Processes         → Run the app as stateless processes.
+7. Port Binding      → Export services via port binding.
+8. Concurrency       → Scale out via process model.
+9. Disposability     → Fast startup and graceful shutdown.
+10. Dev/Prod Parity  → Keep development and production environments similar.
+11. Logs             → Treat logs as event streams.
+12. Admin Processes  → Run one-off admin/maintenance tasks separately.
+
+
+SUMMARY
+--------
+- Load Balancer distributes traffic between service instances.
+- Service Discovery keeps track of available and healthy instances.
+- Communication can be Sync (HTTP) or Async (Kafka/RabbitMQ).
+- Microservices should be Stateless, Polyglot, and Independent.
+- Redis is used for caching.
+- Follow the 12-Factor App principles for scalable and maintainable systems.
