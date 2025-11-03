@@ -1,0 +1,55 @@
+in 1 region(for ex mumbai) there are for ex 2 buildings and you can choose if you want 1 building or 2.
+there are multiple building in a region so that if one building has some problem or it collapses the other building is working fine.
+
+we can select if we want 1 building or 2 or 3 in the region as per our requirement.
+
+there is a vpc(virtual private cloud)
+inside vpc there are subnets
+
+inside subnets there are machines, the machines inside the same vpc can talk to each other
+
+the subnets should be connected with a public subnet - igw(internet gateway) so that person from outside aws can talk to the machines.
+
+customer ----> igw ====> Load Balancer ----> private subnet
+
+inside the public subnet(igw) there is a load balancer, which then sends the req to the private subnet.
+
+customer ----> Load Balancer ----> Authentication/Authorization ----> Microservice 
+                                                                            |
+                                                                            |
+                                                                            |
+                                                                       ----- ------
+                                                                       |           |
+                                                                       sync        async
+                                                                                   |
+                                                                              ----- ------
+                                                                              |           |
+                                                                              Pub/Sub     Queue
+
+SLA(Service Level Agreement)
+ZDU(zero downtime upgrade)
+
+DevOps is a set of practices, to deliver applications and services faster more reliably.
+
+SDLC (Software Development Life Cycle)
+-Planning
+-Analysis
+-Design
+-Implementation
+-Testing and Integration
+-Release/Development/maintenance
+
+Shift Left Approach 
+Security Testing
+it is good if we find a bug in the initial stages only, or else the cost of finding a bug in the later stage could be very high.
+
+if someone has coded using statement instead of prepared statement, it is vulnerable to injection attack
+
+Security Testing
+     |
+     |
+--------------------------- ----------------------
+|                          |                     |
+SCA                        SAST                  DAST
+(Software                  (Static analysis      (Dynamic Analysis Security Testing)
+compliance analysis)        security testing)

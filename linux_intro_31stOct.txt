@@ -1,0 +1,37 @@
+-----CI-----
+download code ----> linting ----> build ----> unit test ----> sca(software compliance analysis) ----> SAST ----> Dockerize            ----> Testing ----> push image into artifact repository
+                                                                                                                (create docker images)
+
+sca - libraries of different packages, known for vulnerablities.
+
+vulnerablities - place within the code which can be misused by hackers.
+
+
+-----CD(Continuous delivery)-----
+Artifactory ----> SIT ----> Performance Testing ----> Security Testing 
+                   |                                    (DAST)
+                   deploy
+                   |
+                   test (automated)
+SIT - System Integration Testing - end to end testing
+DAST - Dynamic analysis security testing
+
+Artifact is :
+-> zip
+-> jar/war for java
+-> gems for ruby
+-> exe/iso for .net
+-> docker images
+
+there are approximately 200 types of artifacts.
+
+----Continuous Deployment----
+Continuous delivery ----> Production deploy
+
+
+Kernel - interface between hardware
+       - it is like adapter between the hardware
+       - manage: 
+            -> CPU
+            -> memory
+            -> 
